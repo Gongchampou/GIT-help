@@ -2,7 +2,7 @@
 
  A compact, practical reference to get you productive with Git fast.
  ## check the website for webflow.
- - https://gongchampou.github.io/GIT-help/
+ - - [IN GItHUB pages](https://gongchampou.github.io/GIT-help// "click Here")
  - you can fork it and deploy in your github page to check how the webflow for more interesting in git flow-chart:
  ### :step by step in github page.
     1. fork it
