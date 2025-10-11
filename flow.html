@@ -175,7 +175,8 @@
       .zone header {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-start;
+        gap: 0.5rem;
         padding: 0.5rem 0.75rem;
         border-bottom: 1px solid var(--border);
       }
@@ -498,7 +499,7 @@ flowchart LR
         <header>
           <strong id="dlg-title">Title</strong>
           <div>
-            <button id="closeBtn" class="btn">Close</button>
+            <button id="closeBtn" class="btn">X</button>
           </div>
         </header>
         <div class="body">
