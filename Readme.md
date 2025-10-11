@@ -100,7 +100,7 @@ cd project-name (give direction)
  git log --oneline --graph --decorate --all
  ```
  # check the website for webflow.
- https://git-scm.com/docs
+ https://gongchampou.github.io/GIT-help
  - you can fork it and deploy in your github page to check how the webflow for more interesting in git flow-chart:
 1. fork it
 2. deploy in your github page. before deploy you should have a github page.
