@@ -1,0 +1,1109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" sizes="32x32" href="image/favicon_io/favicon.ico">
+    <title>Git Tutor – Beginner to Advanced</title>
+    <meta
+      name="description"
+      content="A responsive, step-by-step learning site to teach Git from absolute beginner to advanced."
+    />
+    <style>
+      :root {
+        --bg: #0b1220;
+        --panel: #0f172a;
+        --muted: #9aa4b2;
+        --text: #e6edf3;
+        --accent: #60a5fa;
+        --accent-2: #34d399;
+        --border: #1f2937;
+        --code-bg: #0a0f1a;
+        --warning: #fbbf24;
+        --danger: #f87171;
+        --ok: #22c55e;
+      }
+      :root.light {
+        --bg: #f8fafc;
+        --panel: #ffffff;
+        --muted: #4b5563;
+        --text: #0f172a;
+        --accent: #2563eb;
+        --accent-2: #059669;
+        --border: #e5e7eb;
+        --code-bg: #0f172a10;
+        --warning: #b45309;
+        --danger: #b91c1c;
+        --ok: #15803d;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        color: var(--text);
+        background: var(--bg);
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
+          "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        scrollbar-gutter: stable both-edges;
+      }
+      a {
+        color: var(--accent);
+      }
+      code,
+      pre {
+        font-family:
+          ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+      }
+
+      .topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        z-index: 50;
+        background: color-mix(in srgb, var(--panel) 92%, transparent);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      }
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        width: 100%;
+        margin: 0;
+        padding: 0.75rem 1rem;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 700;
+      }
+      .brand .logo {
+        width: 28px;
+        height: 28px;
+        display: grid;
+        place-items: center;
+        border-radius: 6px;
+        font-size: 16px;
+      }
+      .spacer {
+        flex: 1;
+      }
+      .btn {
+        appearance: none;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        color: var(--text);
+        padding: 0.5rem 0.75rem;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      .btn:hover {
+        border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+      }
+      .btn-ghost {
+        background: transparent;
+      }
+      .btn.btn-icon {
+        width: 36px;
+        height: 36px;
+        padding: 0;
+        display: grid;
+        place-items: center;
+        border: none;
+        background: transparent;
+      }
+
+      .progress {
+        height: 3px;
+        width: 100%;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        transform-origin: left center;
+        transform: scaleX(0);
+      }
+
+      .layout {
+        max-width: 100%;
+        width: 100%;
+        margin: 0 auto;
+        padding: 1rem;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      @media (min-width: 1024px) {
+        /* Nav will be fixed, so keep content as a single column */
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* Default: sticky (non-destructive) */
+      .nav {
+        position: sticky;
+        top: calc(var(--header-h, 64px) + 2px);
+        align-self: start;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        border-radius: 12px;
+        max-height: calc(100vh - var(--header-h, 64px) - 2px - 2rem);
+        overflow: auto;
+      }
+      /* Large screens: convert nav to a fixed left sidebar and offset the content */
+      @media (min-width: 1024px) {
+        .nav {
+          position: fixed;
+          left: 1rem;
+          top: calc(var(--header-h, 64px) + 2px);
+          width: 260px;
+          height: calc(100vh - var(--header-h, 64px) - 2px - 2rem);
+          max-height: none;
+          overflow: auto;
+        }
+        .content {
+          margin-left: 260px; /* equals sidebar width */
+        }
+      }
+      .nav h3 {
+        margin: 0;
+        padding: 0.85rem 1rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .nav a {
+        display: block;
+        padding: 0.6rem 1rem;
+        text-decoration: none;
+        color: var(--text);
+        border-bottom: 1px dashed var(--border);
+        font-size: 0.95rem;
+      }
+      .nav a:last-child {
+        border-bottom: none;
+      }
+      .nav a.active {
+        background: color-mix(in srgb, var(--accent) 12%, transparent);
+      }
+
+      .content {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      section {
+        border: 1px solid var(--border);
+        background: var(--panel);
+        border-radius: 12px;
+        padding: 1rem;
+        scroll-margin-top: calc(var(--header-h, 64px) + 2px);
+      }
+      section h2 {
+        margin: 0.2rem 0 0.5rem;
+      }
+      section p {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .callout {
+        border-left: 4px solid var(--accent);
+        background: color-mix(in srgb, var(--accent) 6%, transparent);
+        padding: 0.75rem 0.9rem;
+        border-radius: 8px;
+      }
+      .callout.warn {
+        border-left-color: var(--warning);
+      }
+      .callout.danger {
+        border-left-color: var(--danger);
+      }
+      .callout.ok {
+        border-left-color: var(--ok);
+      }
+
+      pre {
+        position: relative;
+        margin: 0.75rem 0;
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        padding: 0.75rem;
+        border-radius: 10px;
+        overflow: auto;
+      }
+      pre .copy {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        color: var(--text);
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        display: grid;
+        place-items: center;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      pre .copy svg {
+        width: 16px;
+        height: 16px;
+      }
+      pre .copy.ok {
+        background: color-mix(in srgb, var(--ok) 30%, var(--panel));
+      }
+      .mermaid {
+        background: var(--code-bg);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 0.75rem;
+        overflow: auto;
+        margin: 0.75rem 0;
+      }
+      .mermaid svg {
+        width: 100%;
+        height: auto;
+      }
+
+      /* Tooltip */
+      #tooltip {
+        position: fixed;
+        z-index: 60;
+        pointer-events: none;
+        background: var(--panel);
+        color: var(--text);
+        border: 1px solid var(--border);
+        padding: 0.4rem 0.6rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        display: none;
+        max-width: 280px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 0.75rem;
+      }
+      @media (min-width: 700px) {
+        .grid.cols-2 {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .step {
+        display: flex;
+        gap: 0.5rem;
+        align-items: flex-start;
+      }
+      .step-num {
+        min-width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        background: var(--accent);
+        color: #fff;
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+      }
+
+      .actions {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-top: 0.5rem;
+      }
+      .nextprev {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+
+      .footer {
+        opacity: 0.75;
+        text-align: center;
+        padding: 1.5rem 0;
+      }
+      .logo {
+        width: 28px;
+        height: 28px;
+        display: grid;
+        place-items: center;
+        border-radius: 6px;
+        overflow: hidden; /* clip image to rounded corners */
+      }
+      .logo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* fill the square nicely */
+        display: block;
+        background-color:transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="logo">
+            <img src="image/icon/social.png" alt="logo icon">
+          </div>
+          Git Tutor
+        </div>
+        <a class="btn btn-ghost" href="flow.html">Flow</a>
+        <div class="spacer"></div>
+        <button id="themeBtn" class="btn btn-icon btn-ghost" aria-label="Toggle theme" title="Toggle theme"></button>
+      </div>
+      <div id="progressBar" class="progress"></div>
+    </header>
+
+    <main class="layout">
+      <nav class="nav" aria-label="Sections">
+        <h3>Learn Git</h3>
+        <a href="#welcome">Welcome</a>
+        <a href="#whatis">What is Git?</a>
+        <a href="#visuals">Visual Overview</a>
+        <a href="#install">Install Git</a>
+        <a href="#setup">First-time Setup</a>
+        <a href="#firstrepo">Your First Repo</a>
+        <a href="#basics">Everyday Basics</a>
+        <a href="#branching">Branching</a>
+        <a href="#remotes">Remotes</a>
+        <a href="#undo">Undo & Fix</a>
+        <a href="#stash">Stash</a>
+        <a href="#tags">Tags</a>
+        <a href="#rebase">Rebase</a>
+        <a href="#cherrypick">Cherry-pick</a>
+        <a href="#ssh">SSH Keys</a>
+        <a href="#workflows">Workflows</a>
+        <a href="#troubleshoot">Troubleshooting</a>
+        <a href="#glossary">Glossary</a>
+        <a href="#practice">Practice</a>
+      </nav>
+
+      <div class="content">
+        <section id="welcome">
+          <h2>Welcome</h2>
+          <p>
+            You will learn Git step-by-step, starting from zero. Follow the
+            sections in order and try the commands. Use the “Copy” buttons to
+            run commands in your terminal.
+          </p>
+          <div class="callout ok">
+            If you can open a terminal and copy/paste commands, you’re ready to
+            learn Git.
+          </div>
+          <div class="actions">
+            <a class="btn" href="#whatis">Start learning →</a>
+          </div>
+        </section>
+
+        <section id="whatis">
+          <h2>What is Git?</h2>
+          <p>
+            Git is a tool that remembers every version of your files. It helps
+            you save changes, go back in time, work on new ideas, and
+            collaborate safely.
+          </p>
+          <div class="grid cols-2">
+            <div class="callout">
+              <strong>Why use Git?</strong>
+              <ul>
+                <li>Save your work with messages (commits).</li>
+                <li>
+                  Create branches to try ideas without breaking main code.
+                </li>
+                <li>Share code with others via remotes like GitHub.</li>
+              </ul>
+            </div>
+            <div class="callout">
+              <strong>What Git is not:</strong>
+              <ul>
+                <li>
+                  Not a cloud by itself (GitHub/GitLab/Bitbucket are hosting).
+                </li>
+                <li>Not automatic backups—you still push to a remote.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="nextprev">
+            <span></span
+            ><a class="btn" href="#visuals">Next: Visual Overview</a>
+          </div>
+        </section>
+
+        <section id="visuals">
+          <h2>Visual Overview</h2>
+          <p>
+            These diagrams show how Git concepts connect. Start with the version
+            flow, then see a typical feature branch workflow.
+          </p>
+          <h3>Version Flow</h3>
+          <script type="text/plain" class="m-src">
+flowchart LR
+  WD[Working Directory] -->|git add| ST[Staging Area]
+  ST -->|git commit| LR[Local Repository]
+  LR -->|git push| REM[Remote Repository]
+  REM -->|git fetch/pull| LR
+  click WD "#basics" "Learn basics"
+  click ST "#basics" "Staging &amp; committing"
+  click LR "#undo" "Undo &amp; history"
+  click REM "#remotes" "Remotes"
+          </script>
+          <div class="mermaid"></div>
+
+          <h3>Feature Branch Workflow</h3>
+          <script type="text/plain" class="m-src">
+flowchart LR
+  MAIN[(main)] -->|branch| FEAT[feature/thing]
+  FEAT -->|commits| FEAT
+  FEAT -->|push| ORIGIN[(origin)]
+  ORIGIN -->|PR &amp; review| MAIN
+  MAIN -->|update local| LOCALMAIN[(main)]
+  click MAIN "#branching" "Branching"
+  click FEAT "#branching" "Create branch"
+  click ORIGIN "#remotes" "Push remote"
+          </script>
+          <div class="mermaid"></div>
+
+          <details>
+            <summary>Add your own image</summary>
+            <p>
+              Place an image (e.g., <code>git-overview.png</code>) in the same
+              folder and embed it where you like:
+            </p>
+            <pre><button class="copy">Copy</button><code>&lt;img src="git-overview.png" alt="Git overview diagram" width="900" /&gt;</code></pre>
+          </details>
+          <div class="nextprev">
+            <a class="btn btn-ghost" href="#whatis">← Back</a
+            ><a class="btn" href="#install">Next: Install Git</a>
+          </div>
+        </section>
+
+        <section id="install">
+          <h2>Install Git</h2>
+          <div class="grid cols-2">
+            <div>
+              <h3>Windows</h3>
+              <p>Download the official installer and accept defaults.</p>
+              <p>
+                <a
+                  href="https://git-scm.com/download/win"
+                  target="_blank"
+                  rel="noreferrer"
+                  >Download Git for Windows</a
+                >
+              </p>
+            </div>
+            <div>
+              <h3>macOS</h3>
+              <pre><button class="copy">Copy</button><code>brew install git</code></pre>
+              <p>
+                If you don’t have Homebrew, get it at
+                <a href="https://brew.sh" target="_blank" rel="noreferrer"
+                  >brew.sh</a
+                >.
+              </p>
+            </div>
+          </div>
+          <div>
+            <h3>Linux</h3>
+            <pre><button class="copy">Copy</button><code>sudo apt-get install git   # Debian/Ubuntu
+sudo dnf install git        # Fedora
+sudo pacman -S git          # Arch</code></pre>
+          </div>
+          <div class="nextprev">
+            <a class="btn btn-ghost" href="#whatis">← Back</a
+            ><a class="btn" href="#setup">Next: First-time Setup</a>
+          </div>
+        </section>
+
+        <section id="setup">
+          <h2>First-time Setup</h2>
+          <p>
+            Run these once so Git knows your name, email, default branch, and
+            editor.
+          </p>
+          <pre><button class="copy">Copy</button><code>git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+git config --global init.defaultBranch main
+# Optional
+git config --global core.editor "code --wait"   # VS Code as editor
+</code></pre>
+          <div class="callout warn">
+            Use the same email you use on GitHub if you want your commits linked
+            to your profile.
+          </div>
+          <div class="nextprev">
+            <a class="btn btn-ghost" href="#install">← Back</a
+            ><a class="btn" href="#firstrepo">Next: Your First Repo</a>
+          </div>
+        </section>
+
+        <section id="firstrepo">
+          <h2>Your First Repository</h2>
+          <div class="grid cols-2">
+            <div>
+              <h3>Start a new local project</h3>
+              <div class="step">
+                <div class="step-num">1</div>
+                <div>Create a folder and a README file.</div>
+              </div>
+              <pre><button class="copy">Copy</button><code>mkdir my-project && cd my-project
+echo "# My Project" > README.md</code></pre>
+              <div class="step">
+                <div class="step-num">2</div>
+                <div>Initialize Git and create your first commit.</div>
+              </div>
+              <pre><button class="copy">Copy</button><code>git init
+git add .
+git commit -m "Initial commit"</code></pre>
+            </div>
+            <div>
+              <h3>Clone an existing project</h3>
+              <pre><button class="copy">Copy</button><code>git clone https://github.com/user/repo.git
+cd repo</code></pre>
+              <p>Cloning downloads a full copy of the project history.</p>
+            </div>
+          </div>
+          <div class="nextprev">
+            <a class="btn btn-ghost" href="#setup">← Back</a
+            ><a class="btn" href="#basics">Next: Everyday Basics</a>
+          </div>
+        </section>
+
+        <section id="basics">
+          <h2>Everyday Basics</h2>
+          <div class="grid cols-2">
+            <div>
+              <h3>See what changed</h3>
+              <pre><button class="copy">Copy</button><code>git status
+git diff           # unstaged changes
+git diff --staged  # staged changes</code></pre>
+              <h3>Stage and commit</h3>
+              <pre><button class="copy">Copy</button><code>git add file1 file2   # or: git add .
+git commit -m "Describe the change"
+# Quick add & commit for tracked files
+git commit -am "Message"</code></pre>
+            </div>
+            <div>
+              <h3>View history</h3>
+              <pre><button class="copy">Copy</button><code>git log --oneline
+# Pretty graph view
+git log --oneline --graph --decorate --all</code></pre>
+              <h3>.gitignore</h3>
+              <pre><button class="copy">Copy</button><code>node_modules/
+.env
+.DS_Store
+*.log
+build/
+dist/</code></pre>
+            </div>
+          </div>
+          <div class="nextprev">
+            <a class="btn btn-ghost" href="#firstrepo">← Back</a
+            ><a class="btn" href="#branching">Next: Branching</a>
+          </div>
+        </section>
+
+        <section id="branching">
+          <h2>Branching</h2>
+          <p>
+            Branches let you work on a new idea without affecting the main code.
+          </p>
+          <pre><button class="copy">Copy</button><code>git branch                   # list branches
+git switch -c feature/login  # create and switch
+# older syntax:
+# git checkout -b feature/login</code></pre>
+          <h3>Merge a branch</h3>
+          <pre><button class="copy">Copy</button><code>git switch main
+git pull                     # update main first
+git merge feature/login</code></pre>
+          <div class="callout warn">
+            If there’s a conflict, Git will mark files. Open them, keep the
+            correct lines, then add and commit.
+          </div>
+          <div class="nextprev">
+            <a class="btn btn-ghost" href="#basics">← Back</a
+            ><a class="btn" href="#remotes">Next: Remotes</a>
+          </div>
+        </section>
+
+        <section id="remotes">
+          <h2>Remotes (GitHub, GitLab, etc.)</h2>
+          <p>Connect your local repository to an online host.</p>
+          <pre><button class="copy">Copy</button><code># Add a remote named "origin"
+git remote add origin https://github.com/user/repo.git
+# First push for a branch
+git push -u origin main
+# Pull (fetch + merge)
+git pull
+# Just download latest refs without merging
+git fetch</code></pre>
+          <div class="nextprev">
+            <a class="btn btn-ghost" href="#branching">← Back</a
+            ><a class="btn" href="#undo">Next: Undo & Fix</a>
+          </div>
+        </section>
+
+        <section id="undo">
+          <h2>Undo & Fix Mistakes</h2>
+          <div class="grid cols-2">
+            <div>
+              <h3>Common fixes</h3>
+              <pre><button class="copy">Copy</button><code># Discard local (unstaged) changes
+git restore path/to/file
+# Unstage a file
+git restore --staged path/to/file
+# Edit the last commit
+git commit --amend</code></pre>
+              <div class="callout danger">
+                If you amended or reset and already pushed, use
+                <code>git push --force-with-lease</code>. Avoid this on shared
+                branches; prefer revert.
+              </div>
+            </div>
+            <div>
+              <h3>Go back safely</h3>
+              <pre><button class="copy">Copy</button><code># Create a new commit that undoes a commit
+git revert &lt;commit_sha&gt;</code></pre>
+              <h3>Move HEAD back (be careful)</h3>
+              <pre><button class="copy">Copy</button><code># Relative to HEAD
+git reset --soft HEAD~1    # keep changes staged
+git reset --mixed HEAD~1   # keep changes unstaged
+git reset --hard HEAD~1    # discard changes
+
+# Reset to a specific commit by ID (SHA)
+git reset --soft &lt;commit_sha&gt;
+git reset --mixed &lt;commit_sha&gt;
+git reset --hard &lt;commit_sha&gt;</code></pre>
+            </div>
+          </div>
+          <div class="nextprev">
+            <a class="btn btn-ghost" href="#remotes">← Back</a
+            ><a class="btn" href="#stash">Next: Stash</a>
+          </div>
+        </section>
+
+        <section id="stash">
+          <h2>Stash (Save Work-in-Progress)</h2>
+          <pre><button class="copy">Copy</button><code>git stash push -m "WIP: message"
+git stash list
+git stash show -p stash@{0}
+# apply and drop
+git stash pop
+# or keep it:
+git stash apply stash@{0}</code></pre>
+          <div class="nextprev">
+            <a class="btn btn-ghost" href="#undo">← Back</a
+            ><a class="btn" href="#tags">Next: Tags</a>
+          </div>
+        </section>
+
+        <section id="tags">
+          <h2>Tags (Releases)</h2>
+          <pre><button class="copy">Copy</button><code>git tag v1.0.0                         # lightweight tag
+git tag -a v1.0.0 -m "Release 1.0.0"   # annotated tag
+# Push a single tag
+git push origin v1.0.0
+# Push all tags
+git push --tags</code></pre>
+          <div class="nextprev">
+            <a class="btn btn-ghost" href="#stash">← Back</a
+            ><a class="btn" href="#rebase">Next: Rebase</a>
+          </div>
+        </section>
+
+        <section id="rebase">
+          <h2>Rebase (Rewriting History)</h2>
+          <p>
+            Rebase moves your commits onto a new base. Use it to keep a clean
+            history. Avoid rebasing shared branches without coordination.
+          </p>
+          <pre><button class="copy">Copy</button><code># Update your feature branch with latest main safely
+git switch feature/login
+git fetch origin
+git rebase origin/main
+# If conflicts: fix files, then
+# git add . && git rebase --continue
+# Abort if needed
+# git rebase --abort</code></pre>
+          <div class="nextprev">
+            <a class="btn btn-ghost" href="#tags">← Back</a
+            ><a class="btn" href="#cherrypick">Next: Cherry-pick</a>
+          </div>
+        </section>
+
+        <section id="cherrypick">
+          <h2>Cherry-pick</h2>
+          <p>Apply a specific commit from anywhere onto your current branch.</p>
+          <pre><button class="copy">Copy</button><code>git switch hotfix/urgent
+# Apply a single commit by SHA
+git cherry-pick &lt;commit_sha&gt;</code></pre>
+          <div class="nextprev">
+            <a class="btn btn-ghost" href="#rebase">← Back</a
+            ><a class="btn" href="#ssh">Next: SSH Keys</a>
+          </div>
+        </section>
+
+        <section id="ssh">
+          <h2>SSH Keys (No password pushing)</h2>
+          <div class="grid cols-2">
+            <div>
+              <h3>Create a new SSH key</h3>
+              <pre><button class="copy">Copy</button><code>ssh-keygen -t ed25519 -C "you@example.com"
+# Press Enter to accept defaults, then set a passphrase</code></pre>
+              <h3>Start the agent and add your key</h3>
+              <pre><button class="copy">Copy</button><code># Windows PowerShell
+Start-Service ssh-agent
+ssh-add $env:USERPROFILE\.ssh\id_ed25519
+
+# macOS/Linux
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519</code></pre>
+            </div>
+            <div>
+              <h3>Add the public key to GitHub</h3>
+              <p>
+                Copy your public key and paste it into GitHub → Settings → SSH
+                and GPG keys → New SSH key.
+              </p>
+              <pre><button class="copy">Copy</button><code># Windows
+Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub
+# macOS/Linux
+cat ~/.ssh/id_ed25519.pub</code></pre>
+            </div>
+          </div>
+          <div class="nextprev">
+            <a class="btn btn-ghost" href="#cherrypick">← Back</a
+            ><a class="btn" href="#workflows">Next: Workflows</a>
+          </div>
+        </section>
+
+        <section id="workflows">
+          <h2>Workflows</h2>
+          <div class="grid cols-2">
+            <div class="callout">
+              <strong>Feature branch + Pull Request</strong>
+              <ol>
+                <li>
+                  Create a branch: <code>git switch -c feature/thing</code>
+                </li>
+                <li>
+                  Commit work; push branch:
+                  <code>git push -u origin feature/thing</code>
+                </li>
+                <li>Open a Pull Request; get review</li>
+                <li>Merge to <code>main</code> and update local</li>
+              </ol>
+            </div>
+            <div class="callout">
+              <strong>Git Flow (summary)</strong>
+              <ul>
+                <li>
+                  <code>main</code> is production, <code>develop</code> for
+                  integration
+                </li>
+                <li>
+                  Feature, release, and hotfix branches for structured work
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="nextprev">
+            <a class="btn btn-ghost" href="#ssh">← Back</a
+            ><a class="btn" href="#troubleshoot">Next: Troubleshooting</a>
+          </div>
+        </section>
+
+        <section id="troubleshoot">
+          <h2>Troubleshooting</h2>
+          <div class="grid cols-2">
+            <div>
+              <h3>Common issues</h3>
+              <ul>
+                <li>
+                  Permission denied (publickey): Add SSH key to GitHub and
+                  agent.
+                </li>
+                <li>
+                  Detached HEAD: Switch to a branch or create one from current
+                  commit.
+                </li>
+                <li>
+                  Rejected push: Pull or rebase first, or force-with-lease if
+                  you rewrote history.
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3>Helpful inspection</h3>
+              <pre><button class="copy">Copy</button><code>git remote -v
+git log --oneline --graph --decorate --all
+git status
+git reflog</code></pre>
+            </div>
+          </div>
+          <div class="nextprev">
+            <a class="btn btn-ghost" href="#workflows">← Back</a
+            ><a class="btn" href="#glossary">Next: Glossary</a>
+          </div>
+        </section>
+
+        <section id="glossary">
+          <h2>Glossary</h2>
+          <ul>
+            <li>
+              <strong>Repository (repo)</strong>: A project tracked by Git.
+            </li>
+            <li><strong>Commit</strong>: A saved snapshot of changes.</li>
+            <li>
+              <strong>Branch</strong>: A movable pointer to a line of
+              development.
+            </li>
+            <li>
+              <strong>Remote</strong>: A reference to a hosted copy, e.g.,
+              GitHub.
+            </li>
+            <li>
+              <strong>Merge</strong>: Combine changes from one branch to
+              another.
+            </li>
+            <li>
+              <strong>Rebase</strong>: Reapply commits on top of another base.
+            </li>
+            <li>
+              <strong>Tag</strong>: A named pointer for versions/releases.
+            </li>
+            <li><strong>Stash</strong>: Temporarily save uncommitted work.</li>
+          </ul>
+          <div class="nextprev">
+            <a class="btn btn-ghost" href="#troubleshoot">← Back</a
+            ><a class="btn" href="#practice">Next: Practice</a>
+          </div>
+        </section>
+
+        <section id="practice">
+          <h2>Practice: Your First End-to-End Flow</h2>
+          <ol>
+            <li>Create a repo and commit a file.</li>
+            <li>Create a feature branch and make a change.</li>
+            <li>Merge your feature into <code>main</code>.</li>
+            <li>Add a tag and push it.</li>
+            <li>Try a safe undo with <code>git revert</code>.</li>
+          </ol>
+          <div class="callout ok">
+            Practice makes permanent. Repeat until the flow feels effortless.
+          </div>
+          <div class="actions">
+            <a class="btn" href="#welcome">Back to top</a>
+          </div>
+        </section>
+
+        <div class="footer">© Git Tutor. Learn by doing.</div>
+      </div>
+    </main>
+
+    <div id="tooltip" role="tooltip"></div>
+
+    <script>
+      const root = document.documentElement;
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "light") root.classList.add("light");
+
+      function currentMermaidTheme() {
+        return root.classList.contains("light") ? "default" : "dark";
+      }
+
+      function ensureMermaid(cb) {
+        if (window.mermaid) {
+          cb();
+          return;
+        }
+        const s = document.createElement("script");
+        s.src = "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js";
+        s.onload = () => cb();
+        document.body.appendChild(s);
+      }
+
+      function renderMermaid(){
+      ensureMermaid(() => {
+        window.mermaid.initialize({ startOnLoad:false, theme: currentMermaidTheme() });
+        document.querySelectorAll('.mermaid').forEach(el => {
+          const prev = el.previousElementSibling;
+          const srcTag = prev && prev.matches('script.m-src') ? prev : null;
+          const srcText = srcTag ? srcTag.textContent.trim() : '';
+          if(!el.dataset.src){ el.dataset.src = srcText || el.textContent.trim(); }
+          el.removeAttribute('data-processed');
+          // Use textContent to avoid HTML entity re-interpretation (e.g., &)
+          el.textContent = el.dataset.src;
+        });
+        window.mermaid.run({ querySelector: '.mermaid' });
+      });
+    }
+
+    // Ensure fixed header doesn't overlap content
+    function applyHeaderOffset(){
+      const tb = document.querySelector('.topbar');
+      if(!tb) return;
+      const h = tb.offsetHeight;
+      document.body.style.paddingTop = h + 'px';
+      document.documentElement.style.setProperty('--header-h', h + 'px');
+    }
+    applyHeaderOffset();
+    window.addEventListener('resize', applyHeaderOffset);
+
+      document.getElementById("themeBtn").addEventListener("click", () => {
+        root.classList.toggle("light");
+        localStorage.setItem(
+          "theme",
+          root.classList.contains("light") ? "light" : "dark",
+        );
+        renderMermaid();
+        updateThemeIcon();
+        applyHeaderOffset();
+      });
+
+      // Set initial theme icon on load
+      updateThemeIcon();
+
+      // Progress bar based on scroll through content
+      const progress = document.getElementById("progressBar");
+      const sections = [...document.querySelectorAll("main .content section")];
+      const navLinks = [...document.querySelectorAll(".nav a")];
+
+      // Ensure nav links always scroll, even if hash is already set
+      navLinks.forEach((a) => {
+        const href = a.getAttribute('href') || '';
+        if (!href.startsWith('#')) return;
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          const id = href.slice(1);
+          const target = document.getElementById(id);
+          if (!target) return;
+          const headerVar = getComputedStyle(document.documentElement).getPropertyValue('--header-h');
+          const headerH = parseFloat(headerVar) || (document.querySelector('.topbar')?.offsetHeight || 64);
+          const gap = 2;
+          const top = target.getBoundingClientRect().top + window.scrollY - headerH - gap;
+          window.scrollTo({ top, behavior: 'smooth' });
+          history.replaceState(null, '', '#' + id);
+          // Immediately reflect active state on click
+          navLinks.forEach((link) => link.classList.toggle('active', link.getAttribute('href') === '#' + id));
+        });
+      });
+
+      function updateProgress() {
+        const scrollY = window.scrollY;
+        const docH = document.body.scrollHeight - window.innerHeight;
+        const pct = Math.max(0, Math.min(1, docH ? scrollY / docH : 0));
+        progress.style.transform = `scaleX(${pct})`;
+      }
+      window.addEventListener("scroll", updateProgress, { passive: true });
+      updateProgress();
+
+      // Floating tooltip helpers (match flow.html)
+      const tooltip = document.getElementById("tooltip");
+      function showTooltip(text, x, y) {
+        if (!tooltip) return;
+        tooltip.textContent = text;
+        tooltip.style.display = "block";
+        tooltip.style.left = `${x + 12}px`;
+        tooltip.style.top = `${y + 12}px`;
+      }
+      function hideTooltip() {
+        if (!tooltip) return;
+        tooltip.style.display = "none";
+      }
+
+      // Icon helpers for copy buttons
+      function clipboardIconSVG() {
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+      }
+      function checkIconSVG() {
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+      }
+      function sunIconSVG(){
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>';
+      }
+      function moonIconSVG(){
+        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>';
+      }
+      function updateThemeIcon(){
+        const btn = document.getElementById('themeBtn');
+        if(!btn) return;
+        btn.innerHTML = root.classList.contains('light') ? sunIconSVG() : moonIconSVG();
+      }
+
+      // Copy buttons (icon-only, persistent after click — no hover toggle)
+      document.querySelectorAll("pre").forEach((pre) => {
+        const btn = pre.querySelector(".copy");
+        if (!btn) return;
+        btn.setAttribute("aria-label", "Copy");
+        btn.innerHTML = clipboardIconSVG();
+        // No hover tooltip; avoid visual toggle on pointer move
+        btn.addEventListener("click", async (e) => {
+          e.preventDefault();
+          const codeEl = pre.querySelector("code");
+          const code = codeEl ? codeEl.innerText : "";
+          try {
+            // Deactivate all other active copy buttons
+            document.querySelectorAll('pre .copy.ok').forEach((other) => {
+              if (other !== btn) {
+                other.innerHTML = clipboardIconSVG();
+                other.classList.remove('ok');
+              }
+            });
+            await navigator.clipboard.writeText(code);
+            btn.innerHTML = checkIconSVG();
+            btn.classList.add("ok");
+            // Persist state; do not revert on hover/mouseleave
+          } catch (e) {
+            const ta = document.createElement("textarea");
+            ta.value = code;
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+              document.execCommand("copy");
+            } catch (_) {}
+            document.body.removeChild(ta);
+          }
+        });
+      });
+
+      // Active nav link based on section in view
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const id = entry.target.id;
+              navLinks.forEach((a) =>
+                a.classList.toggle(
+                  "active",
+                  a.getAttribute("href") === "#" + id,
+                ),
+              );
+            }
+          });
+        },
+        { rootMargin: "-40% 0px -55% 0px", threshold: [0, 1] },
+      );
+      sections.forEach((sec) => obs.observe(sec));
+      // Initial active link based on hash or first section
+      (function setInitialActive(){
+        const current = (location.hash || '').slice(1) || (sections[0] && sections[0].id) || 'welcome';
+        navLinks.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+      })();
+      // Initial render for Mermaid diagrams
+      renderMermaid();
+    </script>
+  </body>
+</html>
