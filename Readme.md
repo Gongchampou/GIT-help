@@ -1,6 +1,18 @@
  # Git for Beginners: Quick Guide
 
  A compact, practical reference to get you productive with Git fast.
+ ## check the website for webflow.
+ - https://gongchampou.github.io/GIT-help/
+ - you can fork it and deploy in your github page to check how the webflow for more interesting in git flow-chart:
+ ### :step by step in github page.
+    1. fork it
+    2. deploy in your github page. before deploy you should have a github page.
+    3. open the forked repo in your github page. make it public
+    5. click the setting in the right side.
+    6. check the page
+    7. click the pages in the left side.
+    8. under the build and deploy, you will branch option change that to main  and give domain name and deploy it.
+    4. check the website for more interesting in git flow-chart.
 
  ## Install and First-Time Setup
 
@@ -99,17 +111,7 @@ cd project-name (give direction)
  git log --oneline
  git log --oneline --graph --decorate --all
  ```
- # check the website for webflow.
- - https://gongchampou.github.io/GIT-help/
- - you can fork it and deploy in your github page to check how the webflow for more interesting in git flow-chart:
-1. fork it
-2. deploy in your github page. before deploy you should have a github page.
-3. open the forked repo in your github page. make it public
-5. click the setting in the right side.
-6. check the page
-7. click the pages in the left side.
-8. under the build and deploy, you will branch option change that to main  and give domain name and deploy it.
-4. check the website for more interesting in git flow-chart.
+ 
  ## Branching
 
  - **List/create/switch**:
