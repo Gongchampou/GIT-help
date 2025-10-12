@@ -565,13 +565,30 @@ echo "# My Project" > README.md</code></pre>
                 <div>Initialize Git and create your first commit.</div>
               </div>
               <pre><button class="copy">Copy</button><code>git init
-git add .
-git commit -m "Initial commit"</code></pre>
+git add . Or git add file-name (option)
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/user/repo.git
+git push -u origin main
+</code></pre>
             </div>
             <div>
               <h3>Clone an existing project</h3>
-              <pre><button class="copy">Copy</button><code>git clone https://github.com/user/repo.git
-cd repo</code></pre>
+              <pre><button class="copy">Copy</button><code>git clone https://github.com/user/repo(file-name).git
+cd repo (file name)
+git init
+git add .
+git remote add origin https://github.com/user/repo(file-name).git
+git branch -M main
+git push -u origin main
+</code></pre>
+              <h3>Resume after connecting</h3>
+              <pre><button class="copy">Copy</button><code>git add . or git add file-name (option)
+git commit -m 'update massage'
+git push origin main
+git pull origin main --rebase
+git push origin main
+</code></pre>
               <p>Cloning downloads a full copy of the project history.</p>
             </div>
           </div>
