@@ -1,0 +1,328 @@
+      :root {
+        --bg: #0b1220;
+        --panel: #0f172a;
+        --text: #e6edf3;
+        --muted: #9aa4b2;
+        --border: #1f2937;
+        --accent: #60a5fa;
+        --accent-2: #34d399;
+        --code: #0a0f1a;
+        --ok: #22c55e;
+        --warn: #fbbf24;
+        --danger: #f87171;
+      }
+      :root.light {
+        --bg: #f8fafc;
+        --panel: #ffffff;
+        --text: #0f172a;
+        --muted: #4b5563;
+        --border: #e5e7eb;
+        --accent: #2563eb;
+        --accent-2: #059669;
+        --code: #0f172a10;
+        --ok: #15803d;
+        --warn: #b45309;
+        --danger: #b91c1c;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family:
+          system-ui,
+          -apple-system,
+          Segoe UI,
+          Roboto,
+          Ubuntu,
+          Cantarell,
+          "Helvetica Neue",
+          Arial;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        z-index: 50;
+        background: color-mix(in srgb, var(--panel) 92%, transparent);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+      }
+      .topbar-inner {
+        display: flex;
+        align-items: start;
+        gap: 0.75rem;
+        width: 100%;
+        margin: 0;
+        padding: 0.75rem 1rem;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 800;
+      }
+      .logo {
+        width: 28px;
+        height: 28px;
+        display: grid;
+        place-items: center;
+        background: var(--accent);
+        color: #fff;
+        border-radius: 6px;
+      }
+      .spacer {
+        flex: 1;
+      }
+      .btn{
+        appearance:none; border:1px solid var(--border); background:var(--panel); color:var(--text); padding:.45rem .75rem; border-radius:8px; cursor:pointer}
+      .btn:hover{border-color:color-mix(in srgb, var(--accent) 40%, var(--border))}
+      .btn.btn-icon{ width:36px; height:36px; padding:0; display:grid; place-items:center; border:none; background:transparent }
+      .btn-ghost{ background:transparent }
+
+      main {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 1rem;
+        display: grid;
+        gap: 1rem;
+
+      }
+      .panel {
+        border: 1px solid var(--border);
+        background: var(--panel);
+        border-radius: 12px;
+        padding: 1rem;
+      }
+      .mermaid {
+        background: var(--code);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 0.75rem;
+        overflow: auto;
+      }
+      .mermaid svg {
+        width: 100%;
+        height: auto;
+      }
+
+      /* Practice Board */
+      .board {
+        display: grid;
+        gap: 1rem;
+      }
+      @media (min-width: 900px) {
+        .board {
+          grid-template-columns: 1fr 2fr;
+        }
+      }
+      .palette {
+        border: 1px dashed var(--border);
+        border-radius: 12px;
+        padding: 0.75rem;
+        background: color-mix(in srgb, var(--panel) 85%, transparent);
+      }
+      .palette h3 {
+        margin: 0.25rem 0 0.5rem;
+      }
+      .palette .cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .zones {
+        display: grid;
+        gap: 0.75rem;
+      }
+      @media (min-width: 700px) {
+        .zones {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (min-width: 1100px) {
+        .zones {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+      .zone {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: var(--panel);
+        min-height: 140px;
+        display: flex;
+        flex-direction: column;
+      }
+      .zone header {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .drop {
+        padding: 0.6rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .zone.highlight {
+        outline: 2px dashed var(--accent);
+      }
+      .card {
+        user-select: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0.6rem;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        border-radius: 999px;
+        cursor: grab;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      }
+      .card:active {
+        cursor: grabbing;
+      }
+      .card .badge {
+        font-size: 0.75rem;
+        opacity: 0.75;
+      }
+      .card.ok {
+        border-color: color-mix(in srgb, var(--ok) 40%, var(--border));
+        background: color-mix(in srgb, var(--ok) 15%, var(--panel));
+      }
+      .card.bad {
+        border-color: color-mix(in srgb, var(--danger) 40%, var(--border));
+        background: color-mix(in srgb, var(--danger) 12%, var(--panel));
+      }
+      .zone footer {
+        padding: 0.4rem 0.6rem;
+        border-top: 1px dashed var(--border);
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .legend {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+      .legend .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        padding: 0.25rem 0.5rem;
+        border-radius: 999px;
+      }
+      .chip .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+      }
+      .dot.flow {
+        background: var(--accent);
+      }
+      .dot.safe {
+        background: var(--ok);
+      }
+      .dot.risky {
+        background: var(--danger);
+      }
+
+      /* Tooltip */
+      #tooltip {
+        position: fixed;
+        z-index: 60;
+        pointer-events: none;
+        background: var(--panel);
+        color: var(--text);
+        border: 1px solid var(--border);
+        padding: 0.4rem 0.6rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        display: none;
+        max-width: 280px;
+      }
+
+      /* Modal */
+      .modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        place-items: center;
+        z-index: 70;
+        background: color-mix(in srgb, var(--bg) 40%, transparent);
+      }
+      .modal.show {
+        display: grid;
+      }
+      .dialog {
+        width: min(720px, 92vw);
+        max-height: 85vh;
+        overflow: auto;
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+      }
+      .dialog header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .dialog .body {
+        padding: 1rem;
+        display: grid;
+        gap: 0.75rem;
+      }
+      pre {
+        position: relative;
+        background: var(--code);
+        border: 1px solid var(--border);
+        padding: 0.75rem;
+        border-radius: 10px;
+        overflow: auto;
+      }
+      pre .copy {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        border: 1px solid var(--border);
+        background: var(--panel);
+        color: var(--text);
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        display: grid;
+        place-items: center;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+      pre .copy svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .footer {
+        opacity: 0.75;
+        text-align: center;
+      }
+      /* Prevent background scroll when modal is open */
+      body.no-scroll {
+        overflow: hidden;
+      }
