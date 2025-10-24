@@ -60,8 +60,10 @@ cd project-name (give direction)
 ```
 - Then you can push the existing repo that clone from github to the new local to that github repo
 ```bash
+    git remote remove origin
     git remote add origin https://github.com/user-name/project-name.git
-    git branch -M main
+    git remote -v
+    git branch -M main (option)
     git push -u origin main
  ```
 - After this you can start working on the project and push, commit, pull, merge, etc.
