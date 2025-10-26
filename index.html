@@ -238,10 +238,30 @@ git push -u origin main
               <pre><button class="copy">Copy</button><code>git clone https://github.com/user/repo(file-name).git
 cd repo (file name)
 git init
-git add .
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+- if error
 git remote add origin https://github.com/user/repo(file-name).git
 git branch -M main
 git push -u origin main
+</code></pre>
+<pre><button class="copy">Copy</button><code>
+  git status
+  git branch
+  git checkout (to switch branch to other branch)
+  git checkout -b branch name (to create new branch)
+  git branch -d branch name (to delete branch)
+  git remote -v
+  git add remote origin your repo link(https://github.com/Gongchampou/GIT-help.git)
+  git branch -M main
+  git push -u origin main
+  git diff (to check the branch changes)
+  git merge branch name eg (main)
+  git push origin branch name to push and ask for pull and Request
+  git pull origin main(to get the fresh changes)
+  git fetch origin
+  rm file name (delete any file)
+  remove-item -recurse -force .git (to delete git file inside the folder so that it wont connect and give problem when thing change)
 </code></pre>
               <h3>Resume after connecting repo and local storage</h3>
               <pre><button class="copy">Copy</button><code>git add . or git add file-name (option)
